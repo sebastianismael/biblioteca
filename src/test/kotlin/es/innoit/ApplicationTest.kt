@@ -12,11 +12,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 open class ApplicationTest {
+
+    protected var url = ""
+
     @LocalServerPort
     protected var port = 0
-    protected lateinit var url: String
+
     @Autowired
-    protected lateinit var restTemplate: TestRestTemplate
+    protected var restTemplate: TestRestTemplate? = null
 
     @BeforeEach
     fun init() {
