@@ -10,9 +10,9 @@ private val BOOKS = "libros"
 private val MINIMAL_AMOUNT_TO_FREE_SHIPMENT = 5
 
 @Component
-class ShipmentCostCalculator {
+class CalculateShipmentCost {
 
-    fun calculate(products: Map<String, Int>, client: String): Int {
+    operator fun invoke(products: Map<String, Int>, client: String): Int { // operator!
         if (isEmpty(products)) throw Exception("El pedido no contiene productos")
 
         if (client.isVIP()) { // para explicar extension functions
