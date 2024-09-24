@@ -13,24 +13,21 @@ private val MINIMAL_AMOUNT_TO_FREE_SHIPMENT = 5
 class CalculateShipmentCost {
 
     operator fun invoke(products: Map<String, Int>, client: String): Int { // operator!
-        if (isEmpty(products)) throw Exception("El pedido no contiene productos")
-
-        if (client.isVIP()) { // para explicar extension functions
-            if (enoughBooksAmountToFreeShipment(products)) {
-                if (justAUniqueProductType(products)) return FREE.price()
-            }
-        }
-        return STANDARD.price()
+        if (products.isEmpty()) throw Exception("El pedido no contiene productos")
+        // client.isVIP(): para explicar extension functions
+        return if(client.isVIP() && existEnoughBooksAmountToFreeShipment(products) && justAUniqueProductType(products))
+            FREE.price()
+        else STANDARD.price()
     }
 
     private fun isEmpty(products: Map<String, Int>) = products.isEmpty()
 
     private fun justAUniqueProductType(products: Map<String, Int>) = products.size == 1
 
-    private fun enoughBooksAmountToFreeShipment(products: Map<String, Int>) = // manejo de maps con indices
+    private fun existEnoughBooksAmountToFreeShipment(products: Map<String, Int>) = // manejo de maps con indices
         products[BOOKS]?.let { amount ->
             amount >= MINIMAL_AMOUNT_TO_FREE_SHIPMENT
-        }?: false
+        } ?: false
 
 }
 
