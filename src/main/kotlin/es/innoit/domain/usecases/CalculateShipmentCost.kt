@@ -20,15 +20,12 @@ class CalculateShipmentCost {
         else STANDARD.price()
     }
 
-    private fun isEmpty(products: Map<String, Int>) = products.isEmpty()
-
     private fun justAUniqueProductType(products: Map<String, Int>) = products.size == 1
 
     private fun existEnoughBooksAmountToFreeShipment(products: Map<String, Int>) = // manejo de maps con indices
         products[BOOKS]?.let { amount ->
             amount >= MINIMAL_AMOUNT_TO_FREE_SHIPMENT
         } ?: false
-
 }
 
 private fun String.isVIP() = this.equals(VIP, ignoreCase = true)
