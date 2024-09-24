@@ -16,7 +16,7 @@ class CalculateShipmentCost {
         if (isEmpty(products)) throw Exception("El pedido no contiene productos")
 
         if (client.isVIP()) { // para explicar extension functions
-            if (enounghBooksAmountToFreeShipment(products)) {
+            if (enoughBooksAmountToFreeShipment(products)) {
                 if (justAUniqueProductType(products)) return FREE.price()
             }
         }
@@ -27,7 +27,7 @@ class CalculateShipmentCost {
 
     private fun justAUniqueProductType(products: Map<String, Int>) = products.size == 1
 
-    private fun enounghBooksAmountToFreeShipment(products: Map<String, Int>) = // manejo de maps con indices
+    private fun enoughBooksAmountToFreeShipment(products: Map<String, Int>) = // manejo de maps con indices
         products[BOOKS]?.let { amount ->
             amount >= MINIMAL_AMOUNT_TO_FREE_SHIPMENT
         }?: false
