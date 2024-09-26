@@ -5,9 +5,9 @@ import es.innoit.domain.model.ShipmentType.STANDARD
 import org.springframework.stereotype.Component
 
 
-private val VIP = "VIP"
-private val BOOKS = "libros"
-private val MINIMAL_AMOUNT_TO_FREE_SHIPMENT = 5
+private const val VIP = "VIP"
+private const val BOOKS = "libros"
+private const val MINIMAL_AMOUNT_TO_FREE_SHIPMENT = 5
 
 @Component
 class CalculateShipmentCost {
