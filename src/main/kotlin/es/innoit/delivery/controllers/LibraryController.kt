@@ -1,6 +1,8 @@
 package es.innoit.delivery.controllers
 
 import es.innoit.domain.usecases.CalculateShipmentCost
+import org.springframework.http.ResponseEntity
+import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -9,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 class LibraryController(private val shipmentCostCalculator: CalculateShipmentCost) {
 
     @PostMapping(path = ["/calcular-costo-envio"])
-    fun calculatePrice(@RequestBody order: Order) = shipmentCostCalculator(order.products, order.clientType)
+    fun calculatePrice(@RequestBody order: Order) = ok(shipmentCostCalculator(order.products, order.clientType))
 }
 
 
