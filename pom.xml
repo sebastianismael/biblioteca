@@ -51,6 +51,8 @@
                 </executions>
                 <configuration>
                     <jvmTarget>17</jvmTarget>
+                    <languageVersion>2.0</languageVersion>
+                    <apiVersion>2.0</apiVersion>
                 </configuration>
             </plugin>
             <plugin>
