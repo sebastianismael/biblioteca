@@ -3,12 +3,11 @@ package es.innoit.acceptance.cucumber.steps
 import es.innoit.ApplicationTest
 import es.innoit.delivery.controllers.Order
 import es.innoit.domain.model.ShipmentType
-import es.innoit.domain.model.ShipmentType.FREE
-import es.innoit.domain.model.ShipmentType.STANDARD
+import es.innoit.domain.model.ShipmentType.*
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
-import org.assertj.core.api.Assertions.assertThat
+import org.amshove.kluent.`should be`
 import java.util.*
 
 class FreeShipmentSteps : ApplicationTest() {
@@ -40,7 +39,7 @@ class FreeShipmentSteps : ApplicationTest() {
         }
 
     private fun validateShipmentPriceWith(shipmentType: String) {
-        assertThat(shipmentPrice).isEqualTo(ShipmentType.valueOf(translate(shipmentType)).price())
+        shipmentPrice `should be` valueOf(translate(shipmentType)).price()
     }
 
     private fun getShipmentPrice(): Int {

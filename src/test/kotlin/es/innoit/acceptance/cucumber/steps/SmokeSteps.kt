@@ -4,7 +4,7 @@ import es.innoit.ApplicationTest
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
 import io.cucumber.spring.CucumberContextConfiguration
-import org.assertj.core.api.Assertions.assertThat
+import org.amshove.kluent.shouldBeEqualTo
 
 @CucumberContextConfiguration
 class SmokeSteps: ApplicationTest() {
@@ -17,6 +17,6 @@ class SmokeSteps: ApplicationTest() {
 
     @Then("^obtengo una respuesta exitosa$")
     fun successfulAnswer() {
-        assertThat(json).isEqualTo("=)")
+        json shouldBeEqualTo "=)"
     }
 }
