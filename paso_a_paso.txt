@@ -1,0 +1,86 @@
+1 - crear la clase del test que herede de Aplication test
+
+2- definir el body del servicio que vamos a consumir, donde pasaremos productos y tipo de cliente
+Order: map products, String cliente - hacerlo mismo en el test.
+
+3 escribir el test
+val cost = restTemplate!!.postForObject("$url/calculate-shipment-cost", order, Int::class.java)
+
+4 escribir un controler bobo
+
+@PostMapping("/calculate-shipment-cost")
+    fun calculateCost(@RequestBody order: Order) = ResponseEntity<Int>.ok(0)
+
+    surge la necesidad de mover aca la Order
+
+    al correrlo falla porque no hay un constructor vacio, entonces hacer las properties var
+class Order(var client: String = "", var products: Map<String, Int> = mapOf<String, Int>())
+
+5 correr el test, verde
+6 refactorizar
+7 empezar con el out in,  habria que hacer el test del controller y del use case.
+hacer el test del controller y validar la invocacion del use case, mostrar mockk
+al construir el use case con un TODO("Not yet implemented") mostrar operator fun invoke
+
+agregar validacion del valor de retirno
+
+        whenever(calculateShimpmentCost.invoke(any(), any())).thenReturn(99)
+        val cost = controller.calculateCost(Order("", mapOf()))
+        verify(calculateShimpmentCost).invoke(any(), any())
+        cost.body shouldBeEqualTo 99
+
+8 notar que dejo de funcionar el test de aceptacion, hacerlo pasar
+
+9 vamos con un nuevo acceptance test!!! >> Un cliente Regular pidiendo 10 libros obtiene entrega standard, esto nos va a llevar, no a refactorizar ni a agregar tests al controller sino a agregar test al use case
+
+10 agregar el caso de cliente regular al use case (y el de VIP) ahora deberia pasar TODOS los tests
+
+11 agregar oootro acceptance test>> Un cliente VIP pidiendo 4 libros obtiene entrega standard
+lo que me obliga a agregar el caso en el use case
+
+12 agregar el caso en el use case
+ probablemente se rompan los test anteriores
+
+13 siguiente scenario >> Un cliente VIP pidiendo 5 DVD obtiene entrega standard
+ 
+
+
+
+
+
+@PostMapping(path = ["/calcular-costo-envio"])
+    fun calculatePrice(@RequestBody order: Order) = ok(shipmentCostCalculator(order.products, order.clientType))
+
+
+
+Scenario: Un cliente VIP pidiendo 5 libros obtiene entrega gratuita
+
+Scenario: Un cliente Regular pidiendo 10 libros obtiene entrega standard
+
+Scenario: Un cliente VIP pidiendo 4 libros obtiene entrega standard
+
+Scenario: Un cliente VIP pidiendo 5 DVD obtiene entrega standard
+
+Scenario: Un cliente VIP pidiendo 5 libros y 1 DVD obtiene entrega standard
+
+
+=============================================================
+private const val VIP = "VIP"
+private const val BOOKS = "libros"
+private const val MINIMAL_AMOUNT_TO_FREE_SHIPMENT = 5
+
+@Component
+class CalculateShimpmentCost {
+
+    operator fun invoke(client: String, products: Map<String, Int>) =
+        if (client.isVip() && products.enoughBooks() && products.containsJustBooks()) 0 else 10
+}
+
+private fun Map<String, Int>.containsJustBooks()=
+    this.size == 1 && this.containsKey("BOOK")
+
+private fun Map<String, Int>.enoughBooks() = this["BOOK"]?.let { books -> books >= 5 } ?: false
+
+private fun String.isVip() = this == "VIP"
+
+
